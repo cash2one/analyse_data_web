@@ -2,4 +2,8 @@
 
 {% block page_content %}
 <h1>666 index</h1>
+    {{ apps }}
+    {% for app in apps %}
+        <li>{{ app.id }}</li>
+    {%  endfor %}
 {% endblock %}

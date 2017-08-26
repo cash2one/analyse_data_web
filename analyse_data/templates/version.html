@@ -4,4 +4,7 @@
 
 {% block page_content %}
 <h1>{{ pkgname }}</h1>
+    {% for i in versions %}
+    <li>{{ i.name }}</li>
+    {% endfor %}
 {% endblock %}

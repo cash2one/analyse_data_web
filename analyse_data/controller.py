@@ -5,7 +5,7 @@ import json
 
 
 # 返回tb_apps中所有数据
-def DB_get_tb_apps():
+def db_get_tb_apps():
     try:
         apps = Apps.query.all()
         return apps
@@ -13,6 +13,7 @@ def DB_get_tb_apps():
         print('::QueryFailure::\n'
               '::Information:tb_apps')
         print(e)
+        return []
 
 
 # 根据包名，以json格式返回app表中单条数据的完整信息
@@ -23,7 +24,7 @@ def DB_get_tb_apps():
 #     "description": "没什么好描述的",
 #     "package": "com.youcash"
 # }
-def DB_get_AppInformation_by_Package(package):
+def db_get_appinformation_by_package(package):
     try:
         app = Apps.query.filter(Apps.package == package).first()
         return app
@@ -31,7 +32,7 @@ def DB_get_AppInformation_by_Package(package):
         print('::QueryFailure::\n'
               '::Information:tb_apps')
         print(e)
-        pass
+        return {}
 
 
 # 根据package查询对应app_id
@@ -42,10 +43,11 @@ def get_id_by_package(package):
     except Exception as e:
         print('The Package does not exit!')
         print(e)
+        return -1
 
 
 # 根据package，返回日下载量记录中某app的所有记录
-def DB_get_DayDownloads(package):
+def db_get_daydownloads(package):
     app_id = get_id_by_package(package)
     try:
         records_all = RecordsDay.query.filter(RecordsDay.app_id == app_id)
@@ -54,11 +56,30 @@ def DB_get_DayDownloads(package):
         print('::QueryFailure::\n'
               '::Information:tb_records_day')
         print(e)
-        pass
+        return []
+
+
+# 根据package，day_counter返回若干天内日下载量记录中某app的所有记录
+def db_get_daydownloads_by_day(package, day_counter=7):
+    import datetime
+    from sqlalchemy import and_
+    app_id = get_id_by_package(package)
+    try:
+        yesterday = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+        # 最早的一天
+        early_day = (datetime.datetime.now() - datetime.timedelta(days=day_counter)).strftime("%Y-%m-%d")
+        records = RecordsDay.query.filter(
+            and_(RecordsDay.app_id == app_id, RecordsDay.date >= early_day, RecordsDay.date <= yesterday))
+        return records
+    except Exception as e:
+        print('::QueryFailure::\n'
+              '::Information:tb_records_day')
+        print(e)
+        return []
 
 
 # 根据package，返回tb_version_history中该app的所有记录
-def DB_get_Versions(package):
+def db_get_versions(package):
     app_id = get_id_by_package(package)
     try:
         versions = Version.query.filter(Version.app_id == app_id)
@@ -67,11 +88,11 @@ def DB_get_Versions(package):
         print('::QueryFailure::\n'
               '::Information:tb_version_history')
         print(e)
-        pass
+        return []
 
 
 # 获取tb_comments中某app若干天前在某个应用市场上的评论信息
-def DB_get_comments(package, market, early_day, yesterday):
+def db_get_comments(package, market, early_day, yesterday):
     app_id = get_id_by_package(package)
     try:
         from sqlalchemy import and_
@@ -83,7 +104,7 @@ def DB_get_comments(package, market, early_day, yesterday):
         print('::QueryFailure::\n'
               '::Information:tb_comment')
         print(e)
-        pass
+        return []
 
 
 if __name__ == '__main__':
