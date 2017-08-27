@@ -5,7 +5,9 @@ import json
 from flask import request, Response, make_response
 from analyse_data import app
 from analyse_data.controller import *
-header={'Content-type': 'application/json;charset=utf-8'}
+
+header = {'Content-type': 'application/json;charset=utf-8'}
+
 
 @app.route('/product_cmp/<string:a>/<string:b>/')
 def product_cmp_ab(a, b):
@@ -136,7 +138,7 @@ def get_versionhistory(package):
         versions_array.append(version.get_dict())
     # 将日期转化为字符串供json处理
     for version in versions_array:
-        version['update_time']=version['update_time'].strftime("%Y-%m-%d %H:%M:%S")
+        version['update_time'] = version['update_time'].strftime("%Y-%m-%d %H:%M:%S")
     return json.dumps(versions_array), 200, header
 
 
@@ -190,3 +192,12 @@ def get_scorehistory(package, market, duration):
             dict_of_comment_positive_negative[comment.date.strftime("%Y-%m-%d")]['negative'] += 1
 
     return json.dumps(dict_of_comment_positive_negative), 200, header
+
+
+@app.route('/api_1_0/searchapps/name=<name>')
+def search_apps(name):
+    apps = db_get_apps_by_name(name)
+    apps_array = []
+    for app in apps:
+        apps_array.append(app.get_dict())
+    return json.dumps(apps_array), 200, header

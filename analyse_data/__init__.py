@@ -10,7 +10,7 @@ from analyse_data import models, views, api_1_0
 
 from flask_bootstrap import Bootstrap
 
-bootstrap=Bootstrap(app)
+bootstrap = Bootstrap(app)
 
 if __name__ == '__main__':
     for i in dict(app.config).items():

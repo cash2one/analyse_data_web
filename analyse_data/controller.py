@@ -106,6 +106,16 @@ def db_get_comments(package, market, early_day, yesterday):
         print(e)
         return []
 
+# 对tb_apps表的name进行模糊匹配，返回对应app信息
+def db_get_apps_by_name(name):
+    try:
+        apps = Apps.query.filter(Apps.name.like("%" + name + "%")).all()
+        return apps
+    except Exception as e:
+        print('::QueryFailure::\n'
+              '::Information:tb_apps')
+        print(e)
+        return []
 
 if __name__ == '__main__':
     pass
