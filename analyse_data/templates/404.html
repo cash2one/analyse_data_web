@@ -1,5 +1,34 @@
-{% extends "base.html" %}
+{% extends "bootstrap/base.html" %}
+{% block title %}竞品分析平台 analyse_data{% endblock %}
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+         <div class="container">
+             <div class="navbar-header">
+                 <button type="button" class="navbar-toggle"
+                  data-toggle="collapse" data-target=".navbar-collapse">
+                     <span class="sr-only">Toggle navigation</span>
+                     <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                     <span class="icon-bar"></span>
+                 </button>
+                 <a class="navbar-brand" href="/">Analyse_data</a>
+             </div>
+             <div class="navbar-collapse collapse">
+                 <ul class="nav navbar-nav">
+                     <li><a href="/">首页</a></li>
+                     <li><a href="/product_cmp">产品对比</a></li>
+                 </ul>
+             </div>
+         </div>
+</div>
+{% endblock %}
 
-{% block page_content %}
-<h1>404 Page Not Found</h1>
+{% block content %}
+<div class="container">
+
+     <div class="page-header">
+         <h1>404 Page Not Found</h1>
+     </div>
+
+</div>
 {% endblock %}

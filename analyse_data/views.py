@@ -1,18 +1,20 @@
 from flask import render_template
 import json
-from flask import request
+from flask import request, redirect
 from analyse_data import app
+from analyse_data.controller import *
 
 
 @app.route('/hello/')
-def hello_world():
+def hello():
     url = request.args
-    return render_template('hello.html')
+    return render_template('hello.html', name='fsj')
 
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    apps = db_get_tb_apps()
+    return render_template('index.html', apps=apps)
 
 
 @app.route('/product_cmp/')
@@ -20,34 +22,35 @@ def product_cmp():
     return render_template('product_cmp.html')
 
 
-@app.route('/user/<name>')
-def user(name):
-    return render_template('base.html', name=name)
-
-@app.route('/downloads/total/<pkgname>/')
-def totaldownloads():
-    return render_template('totaldownloads.html')
+@app.route('/downloads/total/<string:pkgname>/')
+def totaldownloads(pkgname):
+    records=db_get_totaldownloads(pkgname)
+    appname=get_appname_by_pkgname(pkgname)
+    return render_template('totaldownloads.html',
+                           pkgname=pkgname, appname=appname, records=records)
 
 @app.route('/downloads/daily/')
 def dailydownloads():
-    pass
+    return redirect('/404')
 
-@app.route('/comments/')
-def comments():
-    pass
+@app.route('/comments/<pkgname>/')
+def comments(pkgname):
+    return render_template('comments.html')
 
-@app.route('/monitoring/')
-def monitoring():
-    pass
+@app.route('/monitoring/<pkgname>/')
+def monitoring(pkgname):
+    return redirect('/404')
 
 @app.route('/keywords/<pkgname>/')
 def keywords(pkgname):
-    return render_template('keywords.html', pkgname=pkgname)
+    return redirect('/404')
 
-@app.route('/version/pkgname=<pkgname>/')
+@app.route('/version/<pkgname>/')
 def version(pkgname):
-    a={}
-    return render_template('version.html', pkgname=pkgname, mydict=a)
+    appname=get_appname_by_pkgname(pkgname)
+    versions=db_get_versions(pkgname)
+    return render_template('version.html', appname=appname,
+                           pkgname=pkgname, versions=versions)
 
 
 @app.errorhandler(404)

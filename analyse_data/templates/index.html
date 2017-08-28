@@ -2,4 +2,37 @@
 
 {% block page_content %}
 <h1>666 index</h1>
+
+<br>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            应用ID
+        </th>
+        <th>
+            应用名称
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for app in apps%}
+    <tr>
+        <td>
+            {{app.id}}
+        </td>
+        <td>
+            <a href="/downloads/total/{{app.package}}">{{app.name}}</a>
+        </td>
+    </tr>
+    {% endfor%}
+    </tbody>
+</table>
 {% endblock %}
+
+{% block nav_stacked%}
+
+{% endblock %}
+{% block row_select%} {% endblock %}
+{% block row_table%} {% endblock %}
