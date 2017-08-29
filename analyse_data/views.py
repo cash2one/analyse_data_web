@@ -1,8 +1,9 @@
-from flask import render_template
+from flask import render_template, session, flash, redirect
 import json
 from flask import request, redirect
 from analyse_data import app
 from analyse_data.controller import *
+from .forms import SearchForm
 
 
 @app.route('/hello/')
@@ -11,10 +12,22 @@ def hello():
     return render_template('hello.html', name='fsj')
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    apps = db_get_tb_apps()
-    return render_template('index.html', apps=apps)
+    sf=SearchForm()
+    if sf.validate_on_submit():
+        session['appname']=sf.appname.data
+        return redirect('/')
+
+    appname=session.get('appname')
+    if appname:
+        apps=db_get_apps_by_name(appname)
+        if not apps:
+            flash('没有查到的结果，请重新输入')
+        del session['appname']
+    else:
+        apps = db_get_tb_apps()
+    return render_template('index.html', apps=apps, form=sf)
 
 
 @app.route('/product_cmp/')
