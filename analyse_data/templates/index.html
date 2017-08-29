@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+<!-- old
+<div class="col-md-12">
+    <div class="input-group col-md-8 col-md-offset-2">
+        <input type="text" class="form-control input-lg" placeholder="应用名称">
+        <span id="search_app" class="input-group-addon btn btn-primary"
+              style="width: 25%" >搜 索</span>
+    </div>
+</div>
+-->
+<center>
+    <form class="form-inline" method="post" role="form">
+      {{ form.hidden_tag() }}
+      {{ wtf.form_errors(form, hiddens="only") }}
+
+      {{ wtf.form_field(form.appname) }}
+      {{ wtf.form_field(form.submit) }}
+    </form>
+</center>
+<br>
+<br>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            应用ID
+        </th>
+        <th>
+            应用名称
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for app in apps%}
+    <tr>
+        <td>
+            {{app.id}}
+        </td>
+        <td>
+            <a href="/downloads/total/{{app.package}}">{{app.name}}</a>
+        </td>
+    </tr>
+    {% endfor%}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block nav_stacked%}
+
+{% endblock %}
+{% block row_select%} {% endblock %}
+{% block row_table%} {% endblock %}

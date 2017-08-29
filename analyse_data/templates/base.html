@@ -1,0 +1,119 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}竞品分析平台 analyse_data{% endblock %}
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle"
+                    data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Analyse_data</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">首页</a></li>
+                <li><a href="/product_cmp">产品对比</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!--
+     <div class="page-header">
+         {% block page_content666 %}{% endblock %}
+     </div>
+     -->
+
+    <div class="row">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+
+        {% block page_content %}{% endblock %}
+    </div>
+
+    <!-- test-->
+    <div class="row">
+        <div class="col-xs-3">
+            {% block nav_stacked %}{% endblock %}
+        </div>
+
+        <div class="col-md-9">
+            {% block row_select %}
+            <select>
+                <option>
+                    1
+                </option>
+                <option>
+                    2
+                </option>
+                <option>
+                    3
+                </option>
+                <option>
+                    4
+                </option>
+            </select>
+            {% endblock%}
+            {% block row_table%}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        版本号
+                    </th>
+                    <th>
+                        更新时间
+                    </th>
+                    <th>
+                        安装包大小
+                    </th>
+                    <th>
+                        当前评分
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        TB - Monthly
+                    </td>
+                    <td>
+                        01/04/2012
+                    </td>
+                    <td>
+                        Default
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            {% endblock%}
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        <p class="navbar-text pull-left">
+            Analyse_data
+        </p>
+        <p class="navbar-text pull-right">
+            © 2017 - PSBC
+        </p>
+  </div>
+{% endblock %}
