@@ -24,7 +24,7 @@
 
 如图所示本产品主要分为两大模块，“首页”模块中主要展示app的相关信息，“产品对比”模块中主要展示同类竞品的对比情况。
 
-![web structure](./images/web-structure.png)
+![web structure](./doc/images/web-structure.png)
 
 
 2）数据收集流程
@@ -39,11 +39,11 @@ python3.6 + scrapy1.4 + mysql5.17
 
 ## 3.1 爬虫模块
 
-![scrapy](./images/scrapy.png)
+![scrapy](./doc/images/scrapy.png)
 
 ## 3.2 数据库模块
 
-![mysql](./images/db_analyse_data.png)
+![mysql](./doc/images/db_analyse_data.png)
 
 ## 3.3 竞品平台模块
 
