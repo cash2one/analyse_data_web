@@ -1,0 +1,3 @@
+[submodule "analyse_data_spider"]
+	path = analyse_data_spider
+	url = https://github.com/lawlietfans/analyse_data_spider.git
