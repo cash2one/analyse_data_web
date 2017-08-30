@@ -1,5 +1,74 @@
 {% extends "base.html" %}
 
 {% block page_content %}
-<h1>404 Page Not Found</h1>
+<h1>{{appname}}</h1>
+{% endblock %}
+
+
+{% block nav_stacked%}
+<ul class="nav nav-pills nav-stacked">
+    <li role="presentation"  class="active">
+      <a href="/downloads/total/{{pkgname}}">
+        下载量
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/comments/{{pkgname}}">
+        评论信息
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/version/{{pkgname}}">
+        版本信息
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/product_cmp">
+        竞品对比
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/keywords/{{pkgname}}">
+        关键词排名
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/monitoring/{{pkgname}}">
+        实时状况
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+{% block row_select%} {% endblock %}
+{% block row_table%}
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            应用市场
+        </th>
+        <th>
+            更新时间
+        </th>
+        <th>
+            总下载量
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for r in records%}
+    <tr>
+        <td>
+            {{r.market}}
+        </td>
+        <td>
+            {{r.tick}}
+        </td>
+        <td>
+            {{r.downloads_total}}
+        </td>
+    </tr>
+    {% endfor%}
+    </tbody>
+</table>
 {% endblock %}

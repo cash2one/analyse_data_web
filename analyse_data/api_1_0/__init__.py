@@ -25,7 +25,8 @@ def product_cmp_testone(a):
 
 # 以json形式返回整个tb_apps表
 # by zhengzhirui
-@app.route('/api_1_0/allapps')
+
+@app.route('/api_1_0/allapps/')
 def get_all_apps():
     apps = db_get_tb_apps()
     if apps == None:
@@ -45,7 +46,8 @@ def get_all_apps():
 #     "description": "没什么好描述的",
 #     "package": "com.youcash"
 # }
-@app.route('/api_1_0/appinformation/package=<package>')
+
+@app.route('/api_1_0/appinformation/<package>/')
 def get_appinformation_by_package(package):
     app = db_get_appinformation_by_package(package)
     if app == None:
@@ -54,7 +56,7 @@ def get_appinformation_by_package(package):
 
 
 # 根据package，以json格式返回app在各应用市场的下载量
-@app.route('/api_1_0/downloads_in_markets/package=<package>')
+@app.route('/api_1_0/downloads_in_markets/<package>/')
 def get_appdownloads_in_markets(package):
     records_all = db_get_daydownloads(package)
     if records_all == None:
@@ -71,7 +73,7 @@ def get_appdownloads_in_markets(package):
     return json.dumps(downloads_in_markets), 200, header
 
 
-# 根据package，以json格式返回app在某段时间内每一天的下载量
+# 根据package，以json格式返回app在<day_counter>天前一直到昨天，每一天的下载量
 # {
 #     "2017-08-22": 80,
 #     "2017-08-21": 70,
@@ -81,30 +83,17 @@ def get_appdownloads_in_markets(package):
 #     "2017-08-17": 90,
 #     "2017-08-16": 90
 # }
-@app.route('/api_1_0/downloads/package=<package>/duration=<duration>')
-def get_appdownloads_on_days(package, duration):
-    records_all = db_get_daydownloads(package)
-    if records_all == None:
-        return json.dumps({}), 200, header
-    # 计算在今天之前某段时间内每天的下载量
-    # eg. downloads_on_days['2017-08-13']=2000
+@app.route('/api_1_0/downloads/<package>/<int:day_counter>/')
+def get_appdownloads_on_days(package, day_counter=7):
     import datetime
+    records_daily = db_get_daydownloads_by_day(package, day_counter)
     downloads_on_days = {}
-    today = datetime.datetime.now()
-    if duration == '7_day':
-        for i in range(7):
-            dateString = (today - datetime.timedelta(days=i + 1)).strftime("%Y-%m-%d")
-            downloads_on_days[dateString] = 0
-    elif duration == '1_month':
-        for i in range(30):
-            dateString = (today - datetime.timedelta(days=i + 1)).strftime("%Y-%m-%d")
-            downloads_on_days[dateString] = 0
-    else:
-        pass
-
-    for record_all in records_all:
+    for i in range(day_counter):
+        the_day = (datetime.datetime.now() - datetime.timedelta(days=i + 1)).strftime("%Y-%m-%d")
+        downloads_on_days[the_day] = 0
+    for record in records_daily:
         try:
-            downloads_on_days[str(record_all.date)[:10]] += record_all.downloads_day
+            downloads_on_days[str(record.date)[:10]] += record.downloads_day
         except:
             pass
 
@@ -128,7 +117,7 @@ def get_appdownloads_on_days(package, duration):
 #         "update_description": "xxx"
 #     }
 # }
-@app.route('/api_1_0/versionhistory/package=<package>')
+@app.route('/api_1_0/versionhistory/<package>/')
 def get_versionhistory(package):
     versions = db_get_versions(package)
     if versions == None:
@@ -194,9 +183,9 @@ def get_scorehistory(package, market, duration):
     return json.dumps(dict_of_comment_positive_negative), 200, header
 
 
-@app.route('/api_1_0/searchapps/name=<name>')
-def search_apps(name):
-    apps = db_get_apps_by_name(name)
+@app.route('/api_1_0/searchapps/<appname>')
+def search_apps(appname):
+    apps = db_get_apps_by_name(appname)
     apps_array = []
     for app in apps:
         apps_array.append(app.get_dict())

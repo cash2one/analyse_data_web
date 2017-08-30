@@ -1,10 +1,83 @@
 {% extends "base.html" %}
 
-{% block title %} version title {% endblock %}
-
 {% block page_content %}
+<<<<<<< HEAD
 <h1>{{ pkgname }}</h1>
     {% for i in versions %}
     <li>{{ i.name }}</li>
     {% endfor %}
+=======
+<h1>{{appname}}</h1>
 {% endblock %}
+
+
+{% block nav_stacked%}
+<ul class="nav nav-pills nav-stacked">
+    <li role="presentation">
+      <a href="/downloads/total/{{pkgname}}">
+        下载量
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/comments/{{pkgname}}">
+        评论信息
+      </a>
+    </li>
+    <li role="presentation"  class="active">
+      <a href="/version/{{pkgname}}">
+        版本信息
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/product_cmp">
+        竞品对比
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/keywords/{{pkgname}}">
+        关键词排名
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/monitoring/{{pkgname}}">
+        实时状况
+      </a>
+    </li>
+  </ul>
+>>>>>>> master
+{% endblock %}
+
+{% block row_select%} {% endblock %}
+{% block row_table%}
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            版本号
+        </th>
+        <th>
+            更新时间
+        </th>
+        <th>
+            说明
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for v in versions%}
+    <tr>
+        <td>
+            {{v.name}}
+        </td>
+        <td>
+            {{v.update_time}}
+        </td>
+        <td>
+            {{v.update_description}}
+        </td>
+    </tr>
+    {% endfor%}
+    </tbody>
+</table>
+{% endblock %}
+

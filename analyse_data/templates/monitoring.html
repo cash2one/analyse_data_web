@@ -3,3 +3,39 @@
 {% block page_content %}
 <h1>404 Page Not Found</h1>
 {% endblock %}
+
+
+{% block nav_stacked%}
+<ul class="nav nav-pills nav-stacked">
+    <li role="presentation" >
+      <a href="/downloads/total">
+        下载量
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/comments">
+        评论信息
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/version">
+        版本信息
+      </a>
+    </li>
+    <li role="presentation"  class="active">
+      <a href="/product_cmp">
+        竞品对比
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/keywords">
+        关键词排名
+      </a>
+    </li>
+    <li role="presentation">
+      <a href="/monitoring">
+        实时状况
+      </a>
+    </li>
+  </ul>
+{% endblock %}
