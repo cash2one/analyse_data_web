@@ -137,6 +137,18 @@ def db_get_apps_by_name(name):
               '::Information:tb_apps')
         print(e)
         return []
+# 根据app_id返回tb_records_detail中的最新记录
+def db_get_newest_downloads(app_id):
+    try:
+        record = RecordsDetail.query.filter(
+            RecordsDetail.app_id == app_id).order_by(
+            db.desc(RecordsDetail.tick)).first()
+        return record
+    except Exception as e:
+        print('::QueryFailure::\n'
+              '::Information:tb_records_detail')
+        print(e)
+        return None
 
 if __name__ == '__main__':
     pass

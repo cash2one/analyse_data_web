@@ -14,14 +14,14 @@ def hello():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    sf=SearchForm()
+    sf = SearchForm()
     if sf.validate_on_submit():
-        session['appname']=sf.appname.data
+        session['appname'] = sf.appname.data
         return redirect('/')
 
-    appname=session.get('appname')
+    appname = session.get('appname')
     if appname:
-        apps=db_get_apps_by_name(appname)
+        apps = db_get_apps_by_name(appname)
         if not apps:
             flash('没有查到的结果，请重新输入')
         del session['appname']
@@ -37,18 +37,21 @@ def product_cmp():
 
 @app.route('/downloads/total/<string:pkgname>/')
 def totaldownloads(pkgname):
-    records=db_get_totaldownloads(pkgname)
-    appname=get_appname_by_pkgname(pkgname)
+    records = db_get_totaldownloads(pkgname)
+    appname = get_appname_by_pkgname(pkgname)
     return render_template('totaldownloads.html',
                            pkgname=pkgname, appname=appname, records=records)
+
 
 @app.route('/downloads/daily/')
 def dailydownloads():
     return redirect('/404')
 
+
 @app.route('/comments/<pkgname>/')
 def comments(pkgname):
     return render_template('comments.html')
+
 
 @app.route('/monitoring/<pkgname>/')
 def monitoring(pkgname):
@@ -59,10 +62,11 @@ def monitoring(pkgname):
 def keywords(pkgname):
     return redirect('/404')
 
+
 @app.route('/version/<pkgname>/')
 def version(pkgname):
-    appname=get_appname_by_pkgname(pkgname)
-    versions=db_get_versions(pkgname)
+    appname = get_appname_by_pkgname(pkgname)
+    versions = db_get_versions(pkgname)
     return render_template('version.html', appname=appname,
                            pkgname=pkgname, versions=versions)
 

@@ -190,3 +190,18 @@ def search_apps(appname):
     for app in apps:
         apps_array.append(app.get_dict())
     return json.dumps(apps_array), 200, header
+
+
+# 模糊匹配appname，返回appid，appname，总下载量
+@app.route('/api_1_0/searchapps2/<appname>')
+def search_apps2(appname):
+    apps = db_get_apps_by_name(appname)
+    result_list = []
+    for app in apps:
+        record = db_get_newest_downloads(app.id)
+
+        if record is None:
+            result_list.append({"app_id": app.id, "app_name": app.name, "downloads_total": '无数据'})
+        else:
+            result_list.append({"app_id": app.id, "app_name": app.name, "downloads_total": record.downloads_total})
+    return json.dumps(result_list), 200, header
